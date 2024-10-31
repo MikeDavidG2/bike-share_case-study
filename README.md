@@ -1,8 +1,6 @@
 # bike-share_case-study
 ## A case study of real-world bike-share data acting as a capstone project for my Google Data Analytics Certificate.
 
-![Tableau Map](https://drive.google.com/file/d/1bPFttO5RU8FudxSmCibEroFeHRusWPQn/view?usp=sharing)
-
 ## I. Background
 Cyclistic is a fictional bike-sharing company that owns more than 5,800 bicycles and over 600 docking stations in the city of Chicago, IL.  Since their launch in 2016, Cyclistic has focused their marketing strategy on boosting general awareness and engaging broad consumer segments.  In order to appeal to the largest possible consumer base, Cyclistic has pricing plans for casual riders  via single-rides & day passes, and consistent riders via annual memberships.
 
