@@ -12,7 +12,7 @@
 <meta name="author" content="Michael Grue" />
 
 
-<title> Process Divvy Trip Data </title>
+<title> Process Bike-Share Trip Data </title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1479,7 +1479,7 @@ border-radius: 0px;
 
 
 <h1 class="title toc-ignore"><center><br />
-Process Divvy Trip Data<br />
+Process Bike-Share Trip Data<br />
 </center></h1>
 <h4 class="author">Michael Grue</h4>
 <h4 class="date">09-30-2024</h4>
@@ -1491,7 +1491,7 @@ Process Divvy Trip Data<br />
 <div id="intro" class="section level1">
 <h1>Intro</h1>
 <p>This document is part of a larger case study for the Google Data
-Analytics Certificate. The below steps detail how the Divvy trip data
+Analytics Certificate. The below steps detail how the bike-share trip data
 was loaded into R, inspected with various Exploratory Data Analysis
 (EDA) functions, processed via the removal of unneeded data, and readied
 for analysis through newly calculated fields.</p>
@@ -1503,19 +1503,16 @@ that the processing steps can be recreated for future analysis.<br>
 </div>
 <div id="load-the-data" class="section level1">
 <h1>Load the data</h1>
-<p>In order to work with the data, we must first load it into an R data
+<p>In order to work with the data, it must first be loaded into an R data
 frame.</p>
-<p><em>NOTE: The 12 individual csv files were downloaded from <a href="https://divvy-tripdata.s3.amazonaws.com/index.html" title="Divvy trip data">here</a>. They were then merged into one csv
-file via the</em> <strong>cmd</strong> <em>prompt. For details on the
-csv merging process, please see the main case study document <a href="https://mikedavidg2.github.io/case-study_bike-share/Case-study_Bike-share.pdf">Case-study_Bike-share</a>
-under Prepare &gt; Merge the csv files.</em></p>
+
 <pre class="r"><code>df_orig &lt;- read_csv(path_to_csv)  # Load the csv data into the R data frame</code></pre>
 <pre><code>## Warning: One or more parsing issues, call `problems()` on your data frame for details,
 ## e.g.:
 ##   dat &lt;- vroom(...)
 ##   problems(dat)</code></pre>
-<p><br>The data was loaded, however we received a warning about
-“problems” - we should inspect those.</p>
+<p><br>The data was loaded, however there was a warning about
+“problems” - they should be inspected.</p>
 <pre class="r"><code>problems(df_orig)</code></pre>
 <pre><code>## # A tibble: 66 × 5
 ##        row   col expected        actual     file 
@@ -1532,17 +1529,17 @@ under Prepare &gt; Merge the csv files.</em></p>
 ## 10 1203487    10 a double        start_lng  &quot;&quot;   
 ## # ℹ 56 more rows</code></pre>
 <p>The above table shows that the loading process attempted to insert
-text (i.e. “started_at”, “ended_at”) into numerical columns.</p>
-<p>Why were their text values in date &amp; numerical columns in the
+text (i.e. “started_at”, “ended_at”) into numerical columns (see the "expected" and "actual" columns in the table above).</p>
+<p>Why were there text values in date &amp; numerical columns in the
 merged csv file? The cmd prompt merging function correctly used the
 column name from the first row of the first csv file. However, each of
-the 11 subsequent csv files had their first row appended to the end of
-the merged file instead of ignoring that row as a header row.</p>
+the 11 subsequent csv files had their first row (the header row) appended to the end of
+the merged file.</p>
 <p>The simple structure of csv files means that they cannot validate
 data the way an R data frame can. This is why the text “started_at” was
 in the column [started_at] 11 times in the merged csv file, but was
 loaded as an NA value in R.</p>
-<p>We will address these extra rows after the EDA. <br></p>
+<p>These extra rows will be addressed after the EDA. <br></p>
 </div>
 <div id="basic-eda" class="section level1">
 <h1>Basic EDA</h1>
@@ -1551,25 +1548,25 @@ Exploratory Data Analysis (EDA) to get an general understanding of its
 structure and attributes (# of rows, # of columns, data types, max/min
 values, etc.)</p>
 <p><br>First up, what are the table dimensions? How many rows and
-columns are we working with?</p>
+columns are in the data frame?</p>
 <pre class="r"><code>dim(df_orig)</code></pre>
 <pre><code>## [1] 5699650      13</code></pre>
 <p>The data frame has almost 5.7 million rows with 13 columns.</p>
-<p><br>Next list out the column names. What kind of data should we
-expect to find? For this analysis, we are interested in categorical,
+<p><br>Next, list out the column names. What kind of data should be
+expected? For this analysis, we are interested in categorical,
 time stamps, and locational fields. ID fields - while important - are
-probably not relevant to our planned analysis.</p>
+probably not relevant to the planned analysis.</p>
 <pre class="r"><code>colnames(df_orig)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;        
 ##  [4] &quot;ended_at&quot;           &quot;start_station_name&quot; &quot;start_station_id&quot;  
 ##  [7] &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;         
 ## [10] &quot;start_lng&quot;          &quot;end_lat&quot;            &quot;end_lng&quot;           
 ## [13] &quot;member_casual&quot;</code></pre>
-<p>I see at least 3 columns we can likely drop before analyzing.</p>
+<p>I see at least 3 columns that can likely be dropped before analyzing: [ride_id] [start_station_id] and [end_station_id].</p>
 <p><br>View some of the <em>first</em> few rows. Though we are looking
 at the first 10 rows of data, we can see that it is not sorted
-chronologically by [started_at]. We will get a chance to see the
-earliest [started_at] ride in a later EDA function.</p>
+chronologically by [started_at].  The
+earliest [started_at] ride will be reviewed in a later EDA function.</p>
 <pre class="r"><code>df_orig %&gt;% 
   select(started_at, start_station_name, end_station_name, member_casual) %&gt;% 
   head(., 10)</code></pre>
@@ -1640,15 +1637,14 @@ been previously overlooked.</p>
 ##   ..   member_casual = col_character()
 ##   .. )
 ##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
-<p><br>Next, let’s get a summary of our dataset. For the first time, we
-see the min and max of our numerical columns. It may provide
-confirmation of the validity of our data - or it might highlight
+<p><br>Next, get a summary of the dataset. For the first time, the min and max of the numerical columns are highlighted. It may provide
+confirmation of the validity of the data - or it might highlight
 unreasonable outliers.</p>
 <ul>
 <li>Does the min/max range make sense for [started_at] and [ended_at]?
 <ul>
-<li>Here we get a chance to see the start times of the oldest (min) and
-most recent (max) trips.</li>
+<li>This is where the start times of the oldest (min) and
+most recent (max) trips can be viewed.</li>
 </ul></li>
 <li>Are there any outliers that are suspicious for [start_lat] &amp;
 [end_lat]?</li>
@@ -1700,10 +1696,10 @@ million row dataset. However, many of these functions are memory
 intensive and the large dataset caused my RStudio to crash. Maybe a more
 powerful computer with more memory would be able to perform the actions.
 In the meantime, order to explore these in-depth EDA functions, I worked
-with a much smaller dataset - the csv file from Jan 2024.</p>
+with a much smaller dataset (the single csv file from Jan 2024).</p>
 <p><br>Load the smallest csv to an R data frame.</p>
 <pre class="r"><code>detailed_eda &lt;- read_csv(path_to_jan2024_csv)</code></pre>
-<p><br>Lets start with the <strong>dlookr</strong> package.</p>
+<p><br>Start with the <strong>dlookr</strong> package.</p>
 <pre class="r"><code>dlookr::diagnose(detailed_eda) # Focus on the missing and unique values</code></pre>
 <pre><code>## # A tibble: 13 × 6
 ##    variables        types missing_count missing_percent unique_count unique_rate
@@ -1848,10 +1844,9 @@ with a much smaller dataset - the csv file from Jan 2024.</p>
 ## Frequency   24460 120413
 ## Proportion  0.169  0.831
 ## --------------------------------------------------------------------------------</code></pre>
-<p>What have we learned from the above table?</p>
+<p>What can be learned from the above table?</p>
 <ul>
-<li>It confirms [ride_id] is a distinct column. This is what we would
-expect.</li>
+<li>It confirms [ride_id] is a distinct column. This is what would be expected.</li>
 <li>[rideable_type] has no NA and only 2 distinct values: 53% classic
 bike &amp; 47% electric bike.</li>
 <li>[start_station_name] has many missing and 999 distinct (NOTE: this
@@ -1862,8 +1857,8 @@ down!)</li>
 <li>[end_lat] &amp; [end_lng] has 288 missing. Interesting - does this
 mean those rides didn’t end at a docking station?</li>
 <li>[member_casual] has no NA and only 2 distinct. 17% were from casual
-riders and 83% were from members. There are a lot more rides from
-members than casual riders.</li>
+riders and 83% were from members. There were a lot more rides from
+members than casual riders in January.  Maybe that isn't true for all months?.</li>
 </ul>
 <p><br>The <strong>nanair</strong> package is good for highlighting
 missing data.</p>
@@ -2157,8 +2152,8 @@ missing data.</p>
 </tr>
 </tbody>
 </table>
-<p><br><strong>SmartEDA</strong> has two different types of reports we
-can generate.</p>
+<p><br><strong>SmartEDA</strong> has two different types of reports that
+can be generated.</p>
 <pre class="r"><code>SmartEDA::ExpData(data=detailed_eda,type=1)</code></pre>
 <pre><code>##                                           Descriptions      Value
 ## 1                                   Sample size (nrow)     144873
@@ -2203,25 +2198,15 @@ can generate.</p>
 ## 11          0.002                  1046
 ## 12          0.002                  1034
 ## 13          0.000                     2</code></pre>
-<p><br>My favorite EDA report is an html document created by
-<strong>summarytools</strong>. The html report can be found <a href="https://mikedavidg2.github.io/case-study_bike-share/Report-summary_tools.html" title="Report-summary_tools">here</a> on GitHub.</p>
-<p>Insights from this summary:</p>
-<ul>
-<li>The report for January seemed to have a large drop off in the middle
-of the month. Maybe a big storm prevented riders from using the
-bikes?</li>
-<li>The report showed that the latitude was more spread out than the
-longitude. This makes sense for the city of Chicago because it is spread
-out north &amp; south more than it is east &amp; west due to Lake
-Michigan lying on it’s eastern edge. <br></li>
-</ul>
+
 </div>
+<br>
 <div id="remove-unneeded-rows" class="section level1">
 <h1>Remove unneeded rows</h1>
-<p>When loading the data frame, we were notified of “problems”. We
-learned that the headers for the 2nd-12th csv files were added as row
+<p>When loading the data frame earlier, R notified that there “problems” with loading the data.
+Inspection found that the headers for the 2nd-12th csv files were added as row
 values. These rows should be removed.</p>
-<p>Let’s first get eyes on those rows.</p>
+<p>First, get eyes on those rows.</p>
 <pre class="r"><code>df_w_na &lt;- filter(df_orig, is.na(started_at))
 print(head(df_w_na, 10)) </code></pre>
 <pre><code>## # A tibble: 10 × 13
@@ -2240,36 +2225,35 @@ print(head(df_w_na, 10)) </code></pre>
 ## # ℹ 9 more variables: start_station_name &lt;chr&gt;, start_station_id &lt;chr&gt;,
 ## #   end_station_name &lt;chr&gt;, end_station_id &lt;chr&gt;, start_lat &lt;dbl&gt;,
 ## #   start_lng &lt;dbl&gt;, end_lat &lt;dbl&gt;, end_lng &lt;dbl&gt;, member_casual &lt;chr&gt;</code></pre>
-<p>Yes, those are the rows we don’t want in our analysis. We can see
-that the <em>character</em> columns have the same value as the name of
+<p>Yes, those are the rows that should not be included in the analysis. 
+ The <em>character</em> columns have the same value as the name of
 the column (i.e. ride_id, rideable_type), while all of the
 <em>numerical</em> columns have “NA” because R didn’t allow a string to
 be inserted into them.</p>
-<p><br>In order to ‘remove’ those rows, we will make a subset of the
+<p><br>In order to ‘remove’ those rows, make a subset of the
 data without the NA values. The below code is identical to the above
-code with the exception that we add an “!” to tell R to give us all the
+code with the exception that there is an “!” to tell R to return all the
 rows that do NOT have an NA value in the [started_at] column.</p>
-<p>Then, using the dim() function, we compare the number of rows for the
-original data frame with the subsetted data frame. We are looking to
-confirm that the subset data frame has 11 fewer rows.</p>
+<p>Then, using the dim() function, compare the number of rows for the
+original data frame with the subsetted data frame. There should be 11 fewer rows for the subsetted data frame.</p>
 <pre class="r"><code>df_no_na &lt;- subset(df_orig, !is.na(started_at))
 
 dim(df_orig)[1] - dim(df_no_na)[1]</code></pre>
 <pre><code>## [1] 11</code></pre>
 <p>An 11 row difference, excellent!</p>
-<p>Per our EDA above, we know there are other columns with NA values
+<p>Per the EDA above, there are other columns with NA values
 like [start_station_name], [end_station_name], [end_lat], and [end_lng].
-However, we don’t want to remove this data prior to analysis. Those rows
+However, those rows should not be removed prior to analysis. Those rows
 still contain valuable information about the start and end times of the
 trip, the type of rider, etc. Those NA rows will be kept with the
 dataset. <br></p>
 </div>
 <div id="remove-unneeded-columns" class="section level1">
 <h1>Remove unneeded columns</h1>
-<p>Due to the size of the data we are working with, it may be helpful to
+<p>Due to the large size of the data, it may be helpful to
 removed the unneeded columns such as [ride_id], [start_station_id], and
-[end_station_id]. Again we will get a subset of the data without the
-columns and then test to make sure the columns have been removed in our
+[end_station_id]. Again, make a subset of the data without the
+columns and then test to make sure the columns have been removed in the
 new data frame.</p>
 <pre class="r"><code>df_dropped_cols &lt;- subset(df_no_na, select = -c(ride_id, start_station_id, end_station_id))</code></pre>
 <pre><code>## orig columns:  13 
@@ -2277,24 +2261,24 @@ new data frame.</p>
 ## 
 ## remaining columns:  10 
 ##  rideable_type started_at ended_at start_station_name end_station_name start_lat start_lng end_lat end_lng member_casual</code></pre>
-<p><br></p>
+<p>Good, the new subset data frame has 10 columns as opposed to the original 13.<br></p>
 </div>
 <div id="create-calc-new-columns" class="section level1">
 <h1>Create &amp; calc new columns</h1>
-<p>There are a number of columns that we can create and calculate that
-will aid us during our upcoming analysis.</p>
-<p><br>Calculate new column: ride_length</p>
+<p>There are a number of columns that can be created and calculated that
+will be helpful during the upcoming analysis.</p>
+<p><br>Calculate new column: ride_length by subtracting ended_at and started_at.</p>
 <pre class="r"><code>df_dropped_cols$ride_length &lt;- with(df_dropped_cols, round_hms(as_hms(difftime(ended_at, started_at)), 1))</code></pre>
-<p><br>Calculate new column: start_month</p>
+<p><br>Calculate new column: start_month.</p>
 <pre class="r"><code>df_dropped_cols$start_month &lt;- with(df_dropped_cols, month(df_dropped_cols$started_at, label = TRUE, abbr = TRUE))</code></pre>
-<p><br>Calculate new column: day_of_week</p>
+<p><br>Calculate new column: day_of_week.</p>
 <pre class="r"><code>df_dropped_cols$day_of_week &lt;- with(df_dropped_cols, weekdays(df_dropped_cols$started_at))</code></pre>
-<p><br>Calculate new column: is_weekend</p>
+<p><br>Calculate new column: is_weekend.</p>
 <pre class="r"><code>df_dropped_cols$is_weekend &lt;- with(df_dropped_cols, ifelse(day_of_week %in% c(&quot;Saturday&quot;, &quot;Sunday&quot;), TRUE, FALSE))</code></pre>
 <p><br></p>
 <div id="examine-new-columns" class="section level2">
 <h2>Examine new columns</h2>
-<p>Take a look at the columns we created and calculated.</p>
+<p>Take a look at the newly created columns.</p>
 <pre class="r"><code>df_dropped_cols %&gt;% 
   select(started_at, ride_length, day_of_week, is_weekend, start_month) %&gt;% 
   head(., 10)</code></pre>
@@ -2332,21 +2316,22 @@ will aid us during our upcoming analysis.</p>
 </div>
 <div id="save-processed-data-to-disk" class="section level1">
 <h1>Save processed data to disk</h1>
-<p>In order to save the data that we have been working with, we need to
-actually save it to disk. The below function saves the data in an R
+<p>In order to preserve the data, it should actually be saved to disk.
+The below function saves the data in an R
 friendly format to the working directory.</p>
 <pre class="r"><code>saveRDS(df_dropped_cols, &#39;processed-divvy-tripdata.rds&#39;)</code></pre>
 <p><br></p>
 </div>
 <div id="next-steps" class="section level1">
 <h1>Next steps</h1>
-<p>Now that we have <strong>processed</strong> the data, it is time to
+<p>Now that the data has been <strong>processed</strong>, it is time to
 actually <strong>analyze</strong> it!</p>
 <ul>
-<li>Continue to the <a href="https://mikedavidg2.github.io/case-study_bike-share/Analysis-divvy-tripdata.html" title="Analysis-divvy-tripdata.html">Analysis</a> document.</li>
-<li>Go back to the <a href="https://mikedavidg2.github.io/case-study_bike-share/Case-study_Bike-share.pdf" title="Case-study_Bike-share.pdf">main document</a> for this case
+<li>Continue to the <a href="https://github.com/MikeDavidG2/bike-share_case-study/blob/main/02a_Analyze-bike-tripdata.R" title="Analyze-bike-tripdata.R" target="_blank" rel="noopener noreferrer">Analyze-bike-tripdata.R</a> script used to analyze the processed data.</li>
+<li>Skip to the <a href="https://github.com/MikeDavidG2/bike-share_case-study/blob/main/03a_Results_Casual-Rider-vs-Member.pptx" title="Casual-Rider-vs-Member.pptx" target="_blank" rel="noopener noreferrer">Results</a> slide deck.</li>
+<li>Go back to the <a href="https://github.com/MikeDavidG2/bike-share_case-study/blob/main/README.md" title="README.md" target="_blank" rel="noopener noreferrer">README</a> for this case
 study.</li>
-<li>Go back to the <a href="https://github.com/MikeDavidG2/case-study_bike-share" title="Case study repo">repo</a> for this case study on GitHub.</li>
+<li>Go back to the <a href="https://github.com/MikeDavidG2/bike-share_case-study" title="bike-share_case-study" target="_blank" rel="noopener noreferrer">repo</a> for this case study on GitHub.</li>
 </ul>
 </div>
 
