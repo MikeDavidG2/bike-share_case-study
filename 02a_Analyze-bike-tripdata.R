@@ -438,10 +438,20 @@ ggplot() +
 output_path <- file.path(my_output_folder, paste0(title, '.png'))
 ggsave(output_path, dpi = 300)
 
-# TODO in writeup:  The casual riders are less than 50% of what the Annual member riders are at from Nov - Mar.
-#   April and October the casual riders are about 50% of what the Annual member rides are.
-#   But from May thought Sept, the cr's are at >50% of what the annual members are at.
-#   INSIGHT: Hit the casual riders up for memberships in April and May when their rides dramatically start increasing.
+
+# Calculate stats for chart
+num_cr_jan <-  nrow(df_cr %>% filter(start_month == 'Jan'))
+num_cr_may <-  nrow(df_cr %>% filter(start_month == 'May'))
+
+num_am_jan <-  nrow(df_am %>% filter(start_month == 'Jan'))
+num_am_may <-  nrow(df_am %>% filter(start_month == 'May'))
+
+pct_jan <- num_cr_jan/num_am_jan
+pct_may <- num_cr_may/num_am_may
+
+peak_months_ls <- list('Sep', 'May', 'Jun', 'Jul', 'Aug')
+num_cr_peak_months <- nrow(df_cr %>% filter(start_month %in% peak_months_ls))
+pct_cr_peak_vs_total_cr <- num_cr_peak_months/num_cr_rides
 
 
 #========================
