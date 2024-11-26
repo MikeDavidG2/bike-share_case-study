@@ -1,31 +1,33 @@
 # bike-share_case-study
-## A case study of real-world bike-share data acting as a capstone project for my Google Data Analytics Certificate.
+## Unveiling Insights from 6 Million Rows of Bike-Share Data: A Google Data Analytics Capstone.
 
 ![Tableau Map](https://drive.google.com/uc?export=view&id=1bPFttO5RU8FudxSmCibEroFeHRusWPQn)
 
 
 ## I. Background
-Cyclistic is a fictional bike-sharing company that owns more than 5,800 bicycles and over 600 docking stations in the city of Chicago, IL.  Since their launch in 2016, Cyclistic has focused their marketing strategy on boosting general awareness and engaging broad consumer segments.  In order to appeal to the largest possible consumer base, Cyclistic has pricing plans for casual riders  via single-rides & day passes, and consistent riders via annual memberships.
+In order to complete my Google Data Analytics Professional Certificate, I've been tasked with performing a case study as a marketing data analyst for a *fictional* bike-sharing company named Cyclistic.  Using real-world data from an actual bike-share company - Divvy - located in Chicago, I will download the data, process, analyze, and "present" the insights to the marketing director & other members of Cyclistic's leadership team.
 
-The annual memberships have been found to be much more profitable to the company vs. the casual passes.  Instead of trying to sell annual memberships to brand new customers, the Cyclistic marketing team has decided to develop a marketing campaign to convert their casual riders into annual members.
+Cyclistic is a fictional bike-sharing company that owns more than 5,800 bicycles and almost 700 docking stations in the city of Chicago, IL.  Since their launch in 2016, Cyclistic has focused their marketing strategy on boosting general awareness and engaging broad consumer segments.  In order to appeal to the largest possible consumer base, Cyclistic has pricing plans for casual riders via single-rides & day passes, and consistent riders via annual memberships.
+
+The marketing director is convinced that annual memberships are much more profitable to the company vs. the casual passes.  Instead of trying to sell annual memberships to brand new customers, the Cyclistic marketing team has decided to develop a campaign to convert their casual riders into annual members.
 
 
 ## II. Business Task
-In order to create a successful marketing campaign, the Cyclistic marketing team first needs to understand how the casual riders (**CR**) use the Cyclistic bikes differently from the annual members (**AM**).
+In order to create a successful campaign, Cyclistic's marketing team first needs to understand how the casual riders & annual members use the bikes differently.
 
 Bike-share trip data for one year will be analyzed to answer:
 
 - **What distinguishes a casual rider from an annual member?**
-  - How many CR rides took place during the analysis year?
-  - How long do CR ride?
-  - What bike type do CR prefer?
-  - Where do CR ride?
-  - When do CR ride?
+  - *How many* casual rides took place during the analysis year?
+  - *When* do casual riders ride?
+  - *How long* do casual riders ride?
+  - *Bike type preference*:  Do casual riders prefer E-bikes or classic?
+  - *Where* do casual riders ride?
 
 
 ## III. Prepare
 ### Reliability of the data:
-Cyclistic is a fictional company so -- for the sake of this case-study -- data from Divvy (an actual bike-share company) will be used.
+Since Cyclistic is a fictional company, we will analyze publicly available data from an actual bike-share company - Divvy.
 
 Before analyzing, it's important to consider a few key aspects of the dataset:
 
@@ -41,21 +43,21 @@ Before analyzing, it's important to consider a few key aspects of the dataset:
 Satisfied that I was working with an official dataset that is original, comprehensive, current, cited, and licensed for public use, I continued with the analysis.
 
 ### Time span of the data:
-Cyclistic's executive team is primarily interested in the differences between CR and AM, so I will focus on data from the 12 months spanning *9/1/23 - 8/31/2024*.  Older data may skew the results since the usage of the bikes by both CR and AM has likely changed since the company’s inception in 2013.
+Cyclistic's executive team is primarily interested in the differences between casual riders and members, so I will focus on data from the 12 months spanning *9/1/23 - 8/31/2024*.  Using older data may skew the results since the usage of the bikes by both casual riders and members has likely changed since the company’s inception in 2016.
 
 ### Initial data download and storage:
 In order to get the bike-share data ready for processing, I performed the following steps:
-- Downloaded the 12 monthly original csv files to a personal, unshared folder on Google Drive.
+- Downloaded the original 12 monthly csv files to a personal, unshared folder on Google Drive.
 - Stored files in an original csv file folder to retain the original datasets.
 - Used the below **cmd** prompt to create one combined csv file from the 12 originals.
   - *`C:\path\to\my\csv_files> copy *.csv combined-divvy-tripdata.csv`*
 - Searched for a processing and analysis tool that could handle almost 6,000,000 rows of data.
-  - Decided R via RStudio was the best tool for the task.
-  - For a detailed description on my search for the best tool, please see the [Appendix](https://github.com/MikeDavidG2/bike-share_case-study/blob/main/04a_Appendix_bike-share_case-study.pdf).
+  - Decided programming language "R" and the Integrated Development Environment (IDE) "RStudio" were the best tools for the task.
+  - For a detailed description on the search for the best tool, please see the [Appendix_bike-share_case-study.pdf](https://github.com/MikeDavidG2/bike-share_case-study/blob/main/04a_Appendix_bike-share_case-study.pdf).
 
 
 ## IV. Process
-The data processing steps can be found in the HTML file [01a_Process-bike-tripdata.html](https://mikedavidg2.github.io/bike-share_case-study/01a_Process-bike-tripdata.html) on GitHub.  This document details how the bike-share trip data was:
+The data processing steps can be found in the HTML file [Process-bike-tripdata.html](https://mikedavidg2.github.io/bike-share_case-study/01a_Process-bike-tripdata.html) on GitHub.  This document details how the bike-share trip data was:
 - Loaded into R.
 - Inspected with multiple EDA functions.
 - Simplified with the removal of unneeded rows and columns.
@@ -63,14 +65,14 @@ The data processing steps can be found in the HTML file [01a_Process-bike-tripda
 
 
 ## V. Analyze
-The data analyzing steps can be found in the R script file [02a_Analyze-bike-tripdata.R](https://github.com/MikeDavidG2/bike-share_case-study/blob/main/02a_Analyze-bike-tripdata.R) on GitHub.  This script details how the bike-share trip data was:
+The data analyzing steps can be found in the R script file [Analyze-bike-tripdata.R](https://github.com/MikeDavidG2/bike-share_case-study/blob/main/02a_Analyze-bike-tripdata.R) on GitHub.  This script details how the bike-share trip data was:
 - Analyzed to create pie-charts, bar-charts, and histograms that can help answer the business question.
 - Formatted to be used by Tableau for map-making.
 - Filtered and extracted so that the Cyclistic executive team can act on the results.
 
 ## VI. Share
 The results of the analysis can be accessed by:
-- Downloading the PowerPoint presentation [Casual-Rider-vs-Member.pptx](https://github.com/MikeDavidG2/bike-share_case-study/blob/main/03a_Results_Casual-Rider-vs-Member.pptx).
+- Downloading the PowerPoint presentation [Results_Casual-Rider-vs-Member.pptx](https://github.com/MikeDavidG2/bike-share_case-study/blob/main/03a_Results_Casual-Rider-vs-Member.pptx).
 - Inspecting the [Tableau map](https://public.tableau.com/app/profile/michael.grue4932/viz/DivvyBikeTrips-Chicago/CasualRiders) which highlights the number of rides started at the most popular stations.
 - Data used for the map can be found in:
   - [Stations-For-Map_Casual-Rider.csv](https://github.com/MikeDavidG2/bike-share_case-study/blob/main/03c_Results_Stations-For-Map_Casual-Rider.csv)
