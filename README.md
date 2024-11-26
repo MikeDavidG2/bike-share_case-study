@@ -5,7 +5,7 @@
 
 
 ## I. Background
-In order to complete my Google Data Analytics Professional Certificate, I've been tasked with performing a case study as a marketing data analyst for a *fictional* bike-sharing company named Cyclistic.  Using real-world data from an actual bike-share company - Divvy - located in Chicago, I will download the data, process, analyze, and "present" the insights to the marketing director & other members of Cyclistic's leadership team.
+This case study is part of my Google Data Analytics Professional Certificate.  In this project I've taken on the role of a marketing data analyst for a fictional bike-sharing company called Cyclistic. I've worked with real-world data from an actual Chicago-based bike-share company, Divvy, to download, process, analyze, and present insights to a fictional marketing director & leadership team. The goal is to use this project as a showcase for hiring managers as I apply for new roles in data analytics.
 
 Cyclistic is a fictional bike-sharing company that owns more than 5,800 bicycles and almost 700 docking stations in the city of Chicago, IL.  Since their launch in 2016, Cyclistic has focused their marketing strategy on boosting general awareness and engaging broad consumer segments.  In order to appeal to the largest possible consumer base, Cyclistic has pricing plans for casual riders via single-rides & day passes, and consistent riders via annual memberships.
 
