@@ -57,7 +57,7 @@ In order to get the bike-share data ready for processing, I performed the follow
 
 
 ## IV. Process
-The data processing steps can be found in the HTML file [Process-bike-tripdata.html](https://mikedavidg2.github.io/bike-share_case-study/01a_Process-bike-tripdata.html) on GitHub.  This document details how the bike-share trip data was:
+The data processing steps can be found in the rendered HTML file [Process-bike-tripdata.html](https://mikedavidg2.github.io/bike-share_case-study/01a_Process-bike-tripdata.html) on GitHub.  This document details how the bike-share trip data was:
 - Loaded into R.
 - Inspected with multiple EDA functions.
 - Simplified with the removal of unneeded rows and columns.
@@ -70,11 +70,8 @@ The data analyzing steps can be found in the R script file [Analyze-bike-tripdat
 - Formatted to be used by Tableau for map-making.
 - Filtered and extracted so that the Cyclistic executive team can act on the results.
 
-## VI. Share
+## VI. Results
 The results of the analysis can be accessed by:
 - Downloading the PowerPoint presentation [Results_Casual-Rider-vs-Member.pptx](https://github.com/MikeDavidG2/bike-share_case-study/blob/main/03a_Results_Casual-Rider-vs-Member.pptx).
 - Inspecting the [Tableau map](https://public.tableau.com/app/profile/michael.grue4932/viz/DivvyBikeTrips-Chicago/CasualRiders) which highlights the number of rides started at the most popular stations.
-- Data used for the map can be found in:
-  - [Stations-For-Map_Casual-Rider.csv](https://github.com/MikeDavidG2/bike-share_case-study/blob/main/03c_Results_Stations-For-Map_Casual-Rider.csv)
-  - [Stations-For-Map_Member.csv](https://github.com/MikeDavidG2/bike-share_case-study/blob/main/03d_Results_Stations-For-Map_Member.csv).
 - Viewing the [Top-50-Casual-Rider-Stations.csv](https://github.com/MikeDavidG2/bike-share_case-study/blob/main/03b_Results_Top-50-Casual-Rider-Stations.csv).
