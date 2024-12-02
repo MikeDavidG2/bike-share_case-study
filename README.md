@@ -9,7 +9,7 @@ This case study is part of my Google Data Analytics Professional Certificate.  I
 
 Cyclistic is a fictional bike-sharing company that owns more than 5,800 bicycles and almost 700 docking stations in the city of Chicago, IL.  Since their launch in 2016, Cyclistic has focused their marketing strategy on boosting general awareness and engaging broad consumer segments.  In order to appeal to the largest possible consumer base, Cyclistic has pricing plans for casual riders via single-rides & day passes, and consistent riders via annual memberships.
 
-The marketing director is convinced that annual memberships are much more profitable to the company vs. the casual passes.  Instead of trying to sell annual memberships to brand new customers, the Cyclistic marketing team has decided to develop a campaign to convert their casual riders into annual members.  My task as a data analyst will be to compare the uses between casual riders and annual members, present the insights, and offer a few marketing ideas.  The marketing team will then be tasked with creating a full-blown marketing campaign.
+The marketing director has shown that annual memberships are much more profitable to the company vs. the casual passes.  Therefore, the Cyclistic marketing team has decided to develop a campaign to convert their casual riders into annual members.  My task as a data analyst will be to compare the uses between casual riders and annual members, present the insights, and offer a few marketing ideas.  The marketing team will then be tasked with creating a full-blown marketing campaign.
 
 
 ## II. Business Task
